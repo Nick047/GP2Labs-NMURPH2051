@@ -10,6 +10,9 @@ SDL_Window*window;
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
 
+bool running = true;
+
+
 //Global Functions
 void InitWindow(int width, int height, bool fullscreen)
 {
@@ -24,6 +27,10 @@ void InitWindow(int width, int height, bool fullscreen)
 		SDL_WINDOW_OPENGL//flags
 		);
 }
+
+
+SDL_Event event;
+
 
 void CleanUp()
 {
@@ -41,8 +48,23 @@ int main(int argc, char* args[])
 
 		return -1;
 	}
-	CleanUp();
-	return 0;
+	
+	
 
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
+	while (running)
+	{
+		while (SDL_PollEvent(&event))
+		{
+			//Get event Type
+			if (event.type == SDL_QUIT || event.type == SDL_WINDOWEVENT_CLOSE)
+			{
+				//set out boolean value, which controls the game loop to false
+				running = false;
+			}
+		}
+	}	
+	
+	CleanUp();
+	return 0;
 }
