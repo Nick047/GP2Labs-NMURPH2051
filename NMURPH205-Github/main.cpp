@@ -49,6 +49,11 @@ GLuint triangleVBO;
 GLuint VAO;
 GLuint shaderProgram = 0;
 
+//Matrices
+mat4 viewMatrix;
+mat4 projMatrix;
+mat4 worldMatrix;
+
 //Constants to control window creation
 const int WINDOW_WIDTH = 640;
 const int WINDOW_HEIGHT = 480;
@@ -237,6 +242,11 @@ void render()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, triangleEBO);
 
 	glUseProgram(shaderProgram);	//This line and the three below might have to go below the EBO linkBuffer
+	//Gets the location of the MVP, Creates a combined Model View Projection Matrix and then sends it to the shader
+	GLint MVPLocation = glGetUniformLocation(shaderProgram, "MVP");
+	mat4 MVP = projMatrix * viewMatrix * worldMatrix;
+	glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
+
 	//Tells the Shader that 0 is the position element
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
@@ -253,7 +263,9 @@ void render()
 //Function to update the game state
 void update()
 {
-
+	projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
+	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
 }
 
 
