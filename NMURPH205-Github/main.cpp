@@ -28,6 +28,8 @@ using glm::vec3;
 
 #include <SDL_opengl.h>		//The header for the OpenGL headers
 #include <gl\GLU.h>
+#include <SDL_image.h>	//LINKS THE sdl_iMAGE HEADER
+
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "./assets";
@@ -279,7 +281,14 @@ int main(int argc, char* args[])
 		return -1;
 	}
 
-
+	//The code below initialises SDL Image for jpg and pngs
+	int imageInitFlags = IMG_INIT_JPG | IMG_INIT_PNG;
+	int returnInitFlags = IMG_Init(imageInitFlags);
+	if (((returnInitFlags)& (imageInitFlags)) != imageInitFlags)
+	{
+		std::cout << "ERROR SDL_Image Init" << IMG_GetError() << std::endl;
+		//Handles and gets Error
+	}
 
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 
