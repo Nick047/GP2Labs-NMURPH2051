@@ -67,15 +67,15 @@ bool running = true;
 //Changed the array below to contain triangle indices to be able to store the corners of a cube
 Vertex triangleData[] = {
 	//Front Cube Face
-	{ -0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f },// Top Left 	coord - x, y, z, color - r, g, b, a
-	{ -0.5f, -0.5f, 0.5f, 1.0f, 1.0f, 0.0f, 1.0f },// Bottom Left 	coord - x, y, z, color - r, g, b, a
-	{ 0.5f, -0.5f, 0.5f, 0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right 	coord - x, y, z, color - r, g, b, a
-	{ 0.5f, 0.5f, 0.5f, 1.0f, 0.0f, 1.0f, 1.0f },// Top Right 	coord - x, y, z, color - r, g, b, a
+	{ vec3(-0.5f, 0.5f, 0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Left 	coord - x, y, z, color - r, g, b, a
+	{ vec3(-0.5f, -0.5f, 0.5f), vec4(1.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left 	coord - x, y, z, color - r, g, b, a
+	{ vec3(0.5f, -0.5f, 0.5f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right 	coord - x, y, z, color - r, g, b, a
+	{ vec3(0.5f, 0.5f, 0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Right 	coord - x, y, z, color - r, g, b, a
 	//Back Cube Face
-	{ -0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f },// Top Left 	coord - x, y, z, color - r, g, b, a
-	{ -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 0.0f, 1.0f },// Bottom Left 	coord - x, y, z, color - r, g, b, a
-	{ 0.5f, -0.5f, -0.5f, 0.0f, 1.0f, 1.0f, 1.0f }, //Bottom Right 	coord - x, y, z, color - r, g, b, a
-	{ 0.5f, 0.5f, -0.5f, 1.0f, 0.0f, 1.0f, 1.0f },// Top Right 	coord - x, y, z, color - r, g, b, a
+	{ vec3(-0.5f, 0.5f, -0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Left 	coord - x, y, z, color - r, g, b, a
+	{ vec3(-0.5f, -0.5f, -0.5f), vec4(1.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left 	coord - x, y, z, color - r, g, b, a
+	{ vec3(0.5f, -0.5f, -0.5f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right 	coord - x, y, z, color - r, g, b, a
+	{ vec3(0.5f, 0.5f, -0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Right 	coord - x, y, z, color - r, g, b, a
 };
 GLuint indices[] = {
 	// Front
@@ -252,7 +252,9 @@ void render()
 	//Tells the Shader that 0 is the position element
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
-
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
+	
 	
 
 	//Changed in Lab 2 - 3D to allow to draw both EBOs and VBOs

@@ -1,10 +1,15 @@
 #ifndef Vertex_h
 #define Vertex_h
 
+#include <glm/glm.hpp>
+using glm::vec4;
+using glm::vec3;
+using glm::vec2;
+
 struct Vertex
 {
-	float x, y, z;	//3dimensional coordinates
-	float r, g, b, a;	//Colors & alpha
+	vec3 position;	//3dimensional coordinates
+	vec4 colours;	//Colors & alpha
 }
 
 #endif
