@@ -29,7 +29,7 @@ using glm::vec3;
 #include <SDL_opengl.h>		//The header for the OpenGL headers
 #include <gl\GLU.h>
 #include <SDL_image.h>	//LINKS THE sdl_iMAGE HEADER
-
+#include "Texture.h"
 
 #ifdef _DEBUG && WIN32
 const std::string ASSET_PATH = "./assets";
@@ -50,6 +50,7 @@ GLuint triangleEBO;
 GLuint triangleVBO;
 GLuint VAO;
 GLuint shaderProgram = 0;
+GLuint texture = 0;
 
 //Matrices
 mat4 viewMatrix;
@@ -67,16 +68,17 @@ bool running = true;
 //Changed the array below to contain triangle indices to be able to store the corners of a cube
 Vertex triangleData[] = {
 	//Front Cube Face
-	{ vec3(-0.5f, 0.5f, 0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Left 	coord - x, y, z, color - r, g, b, a
-	{ vec3(-0.5f, -0.5f, 0.5f), vec4(1.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left 	coord - x, y, z, color - r, g, b, a
-	{ vec3(0.5f, -0.5f, 0.5f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right 	coord - x, y, z, color - r, g, b, a
-	{ vec3(0.5f, 0.5f, 0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Right 	coord - x, y, z, color - r, g, b, a
+	{ vec3(-0.5f, 0.5f, 0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Left 	coord - x, y, z,  coords - u, v color - r, g, b, a
+	{ vec3(-0.5f, -0.5f, 0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left 	coord - x, y, z,  coords - u, v color - r, g, b, a
+	{ vec3(0.5f, -0.5f, 0.5f), vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right 	coord - x, y, z,  coords - u, v color - r, g, b, a
+	{ vec3(0.5f, 0.5f, 0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Right 	coord - x, y, z,  coords - u, v color - r, g, b, a
 	//Back Cube Face
-	{ vec3(-0.5f, 0.5f, -0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Left 	coord - x, y, z, color - r, g, b, a
-	{ vec3(-0.5f, -0.5f, -0.5f), vec4(1.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left 	coord - x, y, z, color - r, g, b, a
-	{ vec3(0.5f, -0.5f, -0.5f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right 	coord - x, y, z, color - r, g, b, a
-	{ vec3(0.5f, 0.5f, -0.5f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Right 	coord - x, y, z, color - r, g, b, a
+	{ vec3(-0.5f, 0.5f, -0.5f), vec2(0.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Left 	coord - x, y, z, coords - u, v color - r, g, b, a
+	{ vec3(-0.5f, -0.5f, -0.5f), vec2(0.0f, 1.0f), vec4(1.0f, 1.0f, 0.0f, 1.0f) },// Bottom Left 	coord - x, y, z,  coords - u, v color - r, g, b, a
+	{ vec3(0.5f, -0.5f, -0.5f),vec2(1.0f, 1.0f), vec4(0.0f, 1.0f, 1.0f, 1.0f) }, //Bottom Right 	coord - x, y, z,  coords - u, v color - r, g, b, a
+	{ vec3(0.5f, 0.5f, -0.5f), vec2(1.0f, 0.0f), vec4(1.0f, 0.0f, 1.0f, 1.0f) },// Top Right 	coord - x, y, z,  coords - u, v color - r, g, b, a
 };
+
 GLuint indices[] = {
 	// Front
 	0, 1, 2, 0, 3, 2,
@@ -119,11 +121,15 @@ void createShader()
 	glLinkProgram(shaderProgram);
 
 	glBindAttribLocation(shaderProgram, 0, "vertexPosition");
+	glBindAttribLocation(shaderProgram, 1, "vertexTexCoords");
+	glBindAttribLocation(shaderProgram, 2, "vertexColour");
 
 	//Now we can delete the VS and FS Programs
 	glDeleteShader(vertexShaderProgram);
 	glDeleteShader(fragmentShaderProgram);
 }
+
+
 
 void initGeometry()
 {
@@ -136,6 +142,8 @@ void initGeometry()
 	//change to?//glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(int), indices, GL_STATIC_DRAW);
 
 }
+
+createTexture();
 
 void InitWindow(int width, int height, bool fullscreen)
 {
@@ -157,6 +165,7 @@ SDL_Event event;
 
 void CleanUp()
 {
+	glDeleteTextures(1, &texture);
 	glDeleteProgram(shaderProgram);
 	glDeleteBuffers(1, &triangleEBO);
 	glDeleteBuffers(1, &triangleVBO);
@@ -253,9 +262,15 @@ void render()
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, NULL);
 	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3)+sizeof(vec2)));
+	glEnableVertexAttribArray(2);
+	glVertexArrayAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3)+sizeof(vec2)));
+	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
 	
-	
+	GLint texture0Location = glGetUniformLocation(shaderProgram, "texture0");	//This gets the texture location and sends the location of the texture to the shader
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
 	//Changed in Lab 2 - 3D to allow to draw both EBOs and VBOs
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
@@ -272,6 +287,11 @@ void update()
 	worldMatrix = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, 0.0f));
 }
 
+void createTexture()
+{
+	std::string texturePath = ASSET_PATH + TEXTURE_PATH + " /texture.png";
+	texture = loadTextureFromFile(texturePath);
+}
 
 //Main Method - Entry Point
 int main(int argc, char* args[])

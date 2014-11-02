@@ -9,6 +9,7 @@ using glm::vec2;
 struct Vertex
 {
 	vec3 position;	//3dimensional coordinates
+	vec2 texCoords;	//The u,v coordinates of thetexture
 	vec4 colours;	//Colors & alpha
 }
 
