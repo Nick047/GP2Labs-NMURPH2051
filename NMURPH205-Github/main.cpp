@@ -21,6 +21,7 @@ using glm::vec3;
 
 
 //Header Files
+#include <SDL_ttf.h>	//Adds font capability
 #include <iostream>
 #include <GL/glew.h>		//The header for GLEW functionality
 
@@ -301,6 +302,11 @@ int main(int argc, char* args[])
 		std::cout << "ERROR SDL_Init" << SDL_GetError() << std::endl;
 
 		return -1;
+	}
+
+	if (TFF_Init() == -1)
+	{
+		std::cout << "ERROR TFF_Init: " << TTF_GetError();
 	}
 
 	//The code below initialises SDL Image for jpg and pngs
