@@ -18,14 +18,54 @@ GLuint loadTextureFromFile(const std::string& filename)
 		}
 
 		SDL_Surface * textSurface = TTF_RenderText_Blended(font, text.c_str(), { 255, 255, 255 });
-		
+		textureID = convertSDLsurfaceToGLTexture(textSurface);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		TTF_CloseFont(font);
 		return textureID;
 	}
 
 	GLuint convertSDLsurfaceToGLTexture(SDL_Surface * surface)
 	{
 		GLuint textureID = 0;
-		return 0;
+		GLint nOfColors = surface->format->BytesPerPixel;
+		GLenum textureFormat = GL_RGB;
+		GLenum internalFormat = GL_RGB8;
+
+		if (nOfColors == 4) // This is 4 to inlucde the alpha channel
+		{
+			if (surface->format->Rmask == 0x000000ff)
+				textureFormat = GL_RGBA;
+			internalFormat = GL_RGB8;
+		}
+		else
+		{
+			textureFormat = GL_BGRA;
+			internalFomat = GL_RGB8;
+		}
+		}
+		else if (nOfColors == 3)	//No alpha channel
+		{
+			if (surface->format->Rmask == 0x000000ff)
+			{
+				textureFormat = GL_RGB;
+				internalFormat = GL_RGB8;
+			}
+			else
+			{
+				textureFormat = GL_BGR;
+				internalFormat = GL_RGB8;
+			}
+		}
+		
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+		
+		return textureID;
 
 	}
 
@@ -37,9 +77,10 @@ GLuint loadTextureFromFile(const std::string& filename)
 		return textureID;
 
 	}
-
+	//
 	GLint nOfColors = imageSurface->format->BytesPerPixel;
 	GLenum textureFormat = GL_RGB;
+	//GLenum internalFormat = GL_RGB8;	//I think this should be here judging from lab5
 	if (nOfColors == 4) // This is 4 to inlucde the alpha channel
 	{
 		if (imageSurface->format->Rmask == 0x000000ff)
@@ -63,6 +104,7 @@ GLuint loadTextureFromFile(const std::string& filename)
 	glGenTextures(1, &textureID);
 	glBindTexture(GL_TEXTURE_2D, textureID);
 	glTexImage2D(GL_TEXTURE_2D, 0, textureFormat, imageSurface->w, imageSurface->h, 0, textureFormat, GL_UNSIGNED_BYTE, imageSurface->pixels);
+	//
 
 	//The code below might be in the worng location
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
