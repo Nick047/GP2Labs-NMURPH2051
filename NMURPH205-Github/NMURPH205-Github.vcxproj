@@ -105,8 +105,25 @@
     <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ambientFS.glsl" />
+    <None Include="ambientVS.glsl" />
     <None Include="assets\shaders\simpleFS.glsl" />
     <None Include="assets\shaders\simpleVS.glsl" />
+    <None Include="diffuseFS.glsl" />
+    <None Include="diffuseVS.glsl" />
+    <None Include="DirectionalLightTextureFS.glsl" />
+    <None Include="DirectionalLightTextureVS.glsl" />
+    <None Include="simpleFS.glsl" />
+    <None Include="simpleVS.glsl" />
+    <None Include="specularFS.glsl" />
+    <None Include="specularFSPerPixel.glsl" />
+    <None Include="specularVS.glsl" />
+    <None Include="specularVSPerPixel.glsl" />
+    <None Include="textureFS.glsl" />
+    <None Include="textureVS.glsl" />
+    <None Include="vertexColourTextureFS.glsl" />
+    <None Include="vertexColourTextureVS.glsl" />
+    <None Include="vertexColourVS.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
