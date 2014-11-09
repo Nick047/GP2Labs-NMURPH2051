@@ -2,9 +2,49 @@
 
 #include "Texture.h"
 
-GLuint loadTextureFromFile(const std::string& filename)
-{
-	GLuint textureID = 0;	//Initialises the texture ID
+//This function will also clean up the surfaces
+	GLuint convertSDLsurfaceToGLTexture(SDL_Surface * surface)
+	{
+		GLuint textureID = 0;
+		GLint nOfColors = surface->format->BytesPerPixel;
+		GLenum textureFormat = GL_RGB;
+		GLenum internalFormat = GL_RGB8;
+
+		if (nOfColors == 4) // This is 4 to inlucde the alpha channel
+		{
+			if (surface->format->Rmask == 0x000000ff)
+				textureFormat = GL_RGBA;
+			internalFormat = GL_RGB8;
+		}
+		else
+		{
+			textureFormat = GL_BGRA;
+			internalFormat = GL_RGB8;
+		}
+		}
+		else if (nOfColors == 3)	//No alpha channel
+		{
+			if (surface->format->Rmask == 0x000000ff)
+			{
+				textureFormat = GL_RGB;
+				internalFormat = GL_RGB8;
+			}
+			else
+			{
+				textureFormat = GL_BGR;
+				internalFormat = GL_RGB8;
+			}
+		}
+		
+		glGenTextures(1, &textureID);
+		glBindTexture(GL_TEXTURE_2D, textureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
+		
+		SDL_FreeSurface(surface);
+
+		return textureID;
+
+	}
 
 	GLuint loadTextureFromFont(const std::string& fontFilename, int pointSize, const std::string& text)
 	{
@@ -28,56 +68,34 @@ GLuint loadTextureFromFile(const std::string& filename)
 		return textureID;
 	}
 
-	GLuint convertSDLsurfaceToGLTexture(SDL_Surface * surface)
+
+
+	GLuint loadTextureFromFile(const std::string& filename)
 	{
-		GLuint textureID = 0;
-		GLint nOfColors = surface->format->BytesPerPixel;
-		GLenum textureFormat = GL_RGB;
-		GLenum internalFormat = GL_RGB8;
+		GLuint textureID = 0;	//Initialises the texture ID
+		SDL_Surface * imageSurface = IMG_Load(filename.c_str());
 
-		if (nOfColors == 4) // This is 4 to inlucde the alpha channel
+		if (!imageSurface)
 		{
-			if (surface->format->Rmask == 0x000000ff)
-				textureFormat = GL_RGBA;
-			internalFormat = GL_RGB8;
+			std::cout << "Can't Load image" << filename << " " << IMG_GetError();
+			return textureID;
 		}
-		else
-		{
-			textureFormat = GL_BGRA;
-			internalFomat = GL_RGB8;
-		}
-		}
-		else if (nOfColors == 3)	//No alpha channel
-		{
-			if (surface->format->Rmask == 0x000000ff)
-			{
-				textureFormat = GL_RGB;
-				internalFormat = GL_RGB8;
-			}
-			else
-			{
-				textureFormat = GL_BGR;
-				internalFormat = GL_RGB8;
-			}
-		}
-		
-		glGenTextures(1, &textureID);
-		glBindTexture(GL_TEXTURE_2D, textureID);
-		glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, surface->w, surface->h, 0, textureFormat, GL_UNSIGNED_BYTE, surface->pixels);
-		
+		//
+		textureID = convertSDLsurfaceToGLTexture(imageSurface);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+
+
 		return textureID;
-
 	}
 
-	SDL_Surface * imageSurface = IMG_Load(filename.c_str());
-
-	if (!imageSurface)
-	{
-		std::cout << "Can' Load image" << filename << " " << IMG_GetError();
-		return textureID;
-
-	}
-	//
+	/*		//Pretty sure this is coded above
 	GLint nOfColors = imageSurface->format->BytesPerPixel;
 	GLenum textureFormat = GL_RGB;
 	//GLenum internalFormat = GL_RGB8;	//I think this should be here judging from lab5
@@ -107,10 +125,8 @@ GLuint loadTextureFromFile(const std::string& filename)
 	//
 
 	//The code below might be in the worng location
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	
 
 	return textureID;	
 }
+*/

@@ -13,4 +13,6 @@ struct Vertex
 	vec4 colours;	//Colors & alpha
 }
 
+#define BUFFER_OFFSET(i) ((char *)NULL + (i))
+
 #endif

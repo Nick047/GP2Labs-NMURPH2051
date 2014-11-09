@@ -2,7 +2,19 @@
 #define Shader_h
 
 #include <GL/glew.h>
+
+
+/*	//Used for mac compatability
+#ifdef __APPLE__
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_opengl.h>
+#elif WIN32
+*/
 #include <SDL_opengl.h>
+/*
+#endif
+*/
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -17,12 +29,12 @@ enum SHADER_TYPE
 GLuint loadShaderFromFile(const std::string&filename, SHADER_TYPE shaderType);
 GLuint loadShaderFromMemory(const char * pMem, SHADER_TYPE shaderType);	//If this function fails then the value returned will be 0
 
-
+bool checkForLinkErrors(GLuint program);
+bool checkForCompileErrors(GLuint shaderProgram);
 
 #endif
 
-//Should this go befor #endif?
 
-bool checkForLinkErrors(GLuint program);
-bool checkForCompileErrors(GLuint shaderProgram);
+
+
 
