@@ -1,16 +1,16 @@
 #include "Component.h"
 
-Component::Component()
+Component::Component()		//This is the constructor
 {
 	m_Type = "Component";
 	m_Active = true;
 }
 
-Component::~Component()
+Component::~Component()		//This is the deonstructor
 {
 
 }
-
+//Classes like this usually have empty functions
 void Component::init()
 {
 

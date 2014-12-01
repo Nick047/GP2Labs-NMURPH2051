@@ -1,5 +1,5 @@
-#ifndef Camera_h
-#define Camera_h
+#ifndef CAMERA_H
+#define CAMERA_H
 
 
 #include <glm/glm.hpp>
@@ -14,8 +14,8 @@ using glm::vec3;
 class Camera :public Component
 {
 public:
-	Camera();
-	~Camera();
+	Camera();		//Camera constructor with no parameters
+	~Camera();		//Camera deconstructor
 
 	void update();
 

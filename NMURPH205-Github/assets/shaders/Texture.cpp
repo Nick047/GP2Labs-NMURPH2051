@@ -1,5 +1,3 @@
-
-
 #include "Texture.h"
 
 //This function will also clean up the surfaces

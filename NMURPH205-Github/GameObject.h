@@ -1,5 +1,5 @@
-#ifndef GameObject_h
-#define GameObject_h
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H		//Might need to be type like GameObject_h
 
 #include <string>
 #include <vector>
@@ -16,7 +16,7 @@ class GameObject
 public:
 	GameObject();
 	~GameObject();
-
+	//Same functions as the Component Class but these are not virtual
 	void init();
 
 	void update();

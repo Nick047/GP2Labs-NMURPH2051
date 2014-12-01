@@ -1,5 +1,5 @@
-#ifndef Material_h
-#define Material_h
+#ifndef MATERIAL_H
+#define MATERIAL_H
 
 #include <GL/glew.h>
 
