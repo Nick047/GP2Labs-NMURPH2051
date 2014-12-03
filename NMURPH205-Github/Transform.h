@@ -1,5 +1,5 @@
-#ifndef TRANSFORM_H
-#define TRANSFORM_H
+#ifndef Transform_h
+#define Transform_h
 
 #include <glm/glm.hpp>
 using glm::mat4;
@@ -10,11 +10,11 @@ using glm::vec3;
 
 #include "Component.h"
 
-class Transform :public Component	//inherits from component
+class Transform :public Component
 {
 public:
-	Transform();	//This is a public no parameter constructor
-	~Transform();	//This is a public deconstructor
+	Transform();
+	~Transform();
 
 	void update();
 

@@ -1,5 +1,5 @@
-#ifndef MESH_H
-#define MESH_H
+#ifndef Mesh_h
+#define Mesh_h
 
 #include <GL/glew.h>
 

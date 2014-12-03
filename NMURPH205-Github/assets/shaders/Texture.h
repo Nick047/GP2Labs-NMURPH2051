@@ -1,6 +1,6 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
-//^This is a header guard
+
 #include <GL/glew.h>
 
 /*

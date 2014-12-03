@@ -1,5 +1,5 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef Component_h
+#define Component_h
 
 #include <string>
 
@@ -8,8 +8,8 @@ class GameObject;
 class Component
 {
 public:
-	Component();		//Constructor with no parameters
-	virtual ~Component();	//Virtual deconstructor
+	Component();
+	virtual ~Component();
 
 	virtual void init();
 
@@ -19,19 +19,17 @@ public:
 
 	virtual void destroy();
 
-	//^ These functions are virtual to allow for any child classes to overrride them
 	const std::string& getType();
 
-	bool isActive();	//returns bool
+	bool isActive();
 
-	void toggleActive();	//returns void
+	void toggleActive();
 
 	void setParent(GameObject * object);
 protected:
 	std::string m_Type;
 	bool m_Active;
 	GameObject * m_Parent;
-	//^ Some of these variables may need to be included
 private:
 };
 

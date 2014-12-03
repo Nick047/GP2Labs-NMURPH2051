@@ -20,17 +20,17 @@ void Mesh::init()
 {
 	glGenVertexArrays(1, &m_VAO);
 	glBindVertexArray(m_VAO);
-	
-	glGenBuffers(1, &m_VBO);	//This creates the buffer
-	
-	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);	//This makes the created VBO active
-	
-	glGenBuffers(1, &m_EBO);	//This creates the buffer
-	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);	//This makes the EBO active
+	//Create buffer
+	glGenBuffers(1, &m_VBO);
+	// Make the new VBO active
+	glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+	//create buffer
+	glGenBuffers(1, &m_EBO);
+	//Make the EBO active
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
 
-	
-	glEnableVertexAttribArray(0);	//The positional shader is 0
+	//Tell the shader that 0 is the position element
+	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)sizeof(vec3));
