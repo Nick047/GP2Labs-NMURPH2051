@@ -1,12 +1,15 @@
+//Add a header files to the project called Vertex.h
+//Add a header file to the project called Shader.h
+//Add a Source file to the project called Shader.cpp
 //Add the shader/assets folder to the solution directory
 //Add a text file to the project called simpleVS.glsl		//make sure the locations point to the shade folder
+//Add a text file to the project called simpleFS.glsl
+
 //Add an additional include directory for C:\Specialised Applications\glm
-//Put the headers in it's own folder as the main directoy is cramped
 
 //Maths headers
 #include <glm/glm.hpp>
 using glm::mat4;
-using glm::vec4;
 using glm::vec3;
 
 //Header Files
@@ -17,8 +20,7 @@ using glm::vec3;
 #include <glm/gtc/type_ptr.hpp>
 /* ^genertates about 60 errors
 ^These headers are to be used ith the above directory */
-
-
+/*
 #ifdef __APPLE__	//The definitions for use with mac format
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
@@ -27,60 +29,42 @@ using glm::vec3;
 #include <SDL2_ttf/SDL_ttf.h>
 #include <SDL2_image/SDL_image.h>
 
-#elif WIN32 
+#elif WIN32 */
 #include <SDL.h>		//The header for SDL2 functionality
 #include <SDL_opengl.h>		//The header for the OpenGL headers
 #include <gl\GLU.h>
 #include <SDL_image.h>	//LINKS THE sdl_iMAGE HEADER
 #include <SDL_ttf.h>	//Adds font capability
-#endif	//Need this in when using mac
+//#endif	//Need this in when using mac
 
 #ifdef _DEBUG && WIN32		//Asst paths for windows
 const std::string ASSET_PATH = "../assets/";	//The asset folder path to be used 
 const std::string SHADER_PATH = "shaders/";		//The sub folder path of assets for shaders
 const std::string TEXTURE_PATH = "textures/";	//The sub folder path of assets for textures
 const std::string FONT_PATH = "fonts/";		//The sub folder path of assets for fonts
-const std::string MODEL_PATH = "model/";	//The sub folder path of assets for models
-
+/*
 #elif __APPLE__		//Asset paths for mac
 const std::string ASSET_PATH;
 const std::string SHADER_PATH;
 const std::string TEXTURE_PATH;
 const std::string FONT_PATH;
-condt std::string MODEL_PATH;
-
+*/
 #else
 const std::string ASSETS_PATH = "/assets/";
 const std::string SHADER_PATH = "shaders/";
-condt std::string TEXTURE_PATH = "textures/";
-const std::string FONT_PATH = "fonts/";
-const std::string MODEL_PATH = "models/";
 #endif
-
-#include <vector>
-
 
 //Local Headers
 #include "Texture.h"	//Links our texture header
 #include "Shader.h"		//Links our shader header
 #include "Vertex.h"		//LInks our vertex header
-#include "GameObject.h"	//Links our GameObect header
-#include "Transform.h"	//Links our Transform header
-#include "Mesh.h"		//Links our Mesh header
-#include "Material.h"	//LInks our material header
-#include "Camera.h"		//Links our Camera header
-#include "Light.h"		//Links our Light header
-#include "FBXLoader.h"	//Links our FBXLoader header
-
-#include "PostProcessing.h"	//Links our PostProcessing header
-#include "ColourFilters.h"	//Links our ColourFilters header
 
 //const std : string FONT_PATH = "/fonts";	//This is alreay initalised above
 //Do i need a textre ath similar to the fonts and shaders above.
 //GLuint fontTexture = 0;	//This might be incorrect
 
 //GLOBAL VARIABLES
-/*
+
 //UI
 GLuint UIVBO;
 GLuint UIEBO;
@@ -109,7 +93,7 @@ mat4 worldMatrixGame;
 GLuint texture = 0;
 GLuint nameTexture = 0;
 GLuint fontTexture = 0;
-*/
+
 
 //SDL Window
 SDL_Window * window = NULL;
@@ -123,7 +107,6 @@ const int WINDOW_WIDTH = 640;
 //Window Height
 const int WINDOW_HEIGHT = 480;
 
-vec4 ambientLightColour = vec4(1.0f, 1.0f, 1.0f, 1.0f);
 /* //Not needed anymore?
 GLuint triangleEBO;
 GLuint triangleVBO;
@@ -133,11 +116,6 @@ GLuint texture = 0;
 */
 
 bool running = true;
-
-std::vector<GameObject*> displayList;	//Vector of GameObjects
-GameObject * mainCamera;
-GameObject * mainLight;
-PostProcessing postProcessor;
 
 //Below not needed anymore
 //float triangleData[] = { 0.0f, 1.0f, 0.0f, /*Top*/ -1.0f, -1.0f, 0.0f, /*Bottom Left*/ 1.0f, -1.0f, 0.0f}; /* Bottom Right*/	//Changed to the array below in Lab 2 -3D 4.2
@@ -183,16 +161,6 @@ GLuint shaderProgram = 0;
 */	//Above not needed anymore
 
 
-void CheckForErrors()
-{
-	GLenum error;
-	do
-	{
-		error = glGetError();
-	}
-	while (error != GL_NO_ERROR);
-}
-
 //GLOBAL FUNCTIONS
 
 void InitWindow(int width, int height, bool fullscreen)
@@ -208,7 +176,6 @@ void InitWindow(int width, int height, bool fullscreen)
 		);
 }
 
-/*
 void create2DScene()
 {
 	std::string fontPath = ASSET_PATH + FONT_PATH + "OratorStd.otf";
@@ -284,9 +251,8 @@ void create2DScene()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3)+sizeof(vec2)));
 }
-*/
 
-/*
+
 void create3DScene()
 {
 	std::string texturePath = ASSET_PATH + TEXTURE_PATH + "test.png";
@@ -357,8 +323,7 @@ void create3DScene()
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void**)(sizeof(vec3)+sizeof(vec2)));
 }
-*/
-/*
+
 void CleanUp2DScene()
 {
 	glDeleteTextures(1, &nameTexture);
@@ -367,8 +332,7 @@ void CleanUp2DScene()
 	glDeleteBuffers(1, &UIEBO);
 	glDeleteVertexArrays(1, &UIVAO);
 }
-*/
-/*
+
 void CleanUp3DScene()
 {
 	glDeleteTextures(1, &texture);
@@ -378,7 +342,6 @@ void CleanUp3DScene()
 	glDeleteBuffers(1, &gameEBO);
 	glDeleteVertexArrays(1, &gameVAO);
 }
-*/
 
 /*
 void createShader()
@@ -406,7 +369,7 @@ void createShader()
 }
 */
 
-/*
+
 void initGeometry()
 {
 	//Create the buffer	//Changed from VBO to EBO in Lab 2 - 3D 7.4
@@ -418,8 +381,8 @@ void initGeometry()
 	//change to?//glBufferData(GL_ELEMENT_ARRAY_BUFFER, 36 * sizeof(int), indices, GL_STATIC_DRAW);
 
 }
-*/
-//createTexture();
+
+createTexture();
 
 
 
@@ -429,39 +392,10 @@ void initGeometry()
 
 void CleanUp()
 {
-
-	auto iter = displayList.begin();
-	while (iter != displayList.end())
-	{
-		(*iter)->destroy();
-		if ((*iter))
-		{
-			delete (*iter);
-			(*iter) = NULL;
-			iter = displayList.erase(iter);
-		}
-		else
-		{
-			iter++;
-		}
-	}
-	displayList.clear();
-
-
-	postProcessor.destroy();	//Clean up, reverse order
-	/*
-	if (physics){
-		physics->destroy();
-		delete physics;
-		physics = NULL;
-	}
-	*/
-	/*
 	// clean up, reverse order!!!
 	CleanUp2DScene();	//This gets rid of 2D elements
 	CleanUp3DScene();	//This gets rid of 3D elements
-	*/
-	SDL_GL_DeleteContext(glcontext);	
+	SDL_GL_DeleteContext(glcontext);
 	SDL_DestroyWindow(window);
 	IMG_Quit();
 	TTF_Quit();
@@ -521,121 +455,25 @@ void initOpenGL()
 //The Function to set and reset the viewport
 void setViewport(int width, int height)
 {
-	/*
 	//Screen Ratio
 	GLfloat ratio;
-	*/
+
 	//Make sure the height is always above 1
 	if (height == 0)
 	{
 		height = 1;
 	}
-	/*
+
 	//Calculates the screen's ratio and setups the viewport
 	ratio = (GLfloat)width / (GLfloat)height;
-	*/
+
 	//Setup viewport
 	glViewport(0, 0, (GLsizei)width, (GLsizei)height);
 
 
 }
 
-void Initialise()
-{
-	std::string vsPath = ASSET_PATH + SHADER_PATH + "/passThroughVS.glsl";
-	std::string fsPath = ASSET_PATH + SHADER_PATH + "/boxFilterBlurFS.glsl";
 
-	postProcessor.init(WINDOW_WIDTH, WINDOW_HEIGHT, vsPath, fsPath);
-
-	mainCamera = new GameObject();
-	mainCamera->setName("MainCamera");
-
-	Transform *t = new Transform();
-	t->setPosition(0.0f, 0.0f, 2.0f);
-	mainCamera->setTransform(t);
-
-	Camera * c = new Camera();
-	c->setAspectRatio((float)(WINDOW_WIDTH / WINDOW_HEIGHT));
-	c->setFOV(45.0f);
-	c->setNearClip(0.1f);
-	c->setFarClip(1000.0f);
-
-	mainCamera->setCamera(c);
-	displayList.push_back(mainCamera);
-
-	mainLight = new GameObject();
-	mainLight->setName("MainLight");
-
-	t = new Transform();
-	t->setPosition(0.0f, 0.0f, 0.0f);
-	mainLight->setTransform(t);
-
-	Light * light = new Light();
-	mainLight->setLight(light);
-	displayList.push_back(mainLight);
-
-	//alternative sytanx
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-	{
-		(*iter)->init();
-	}
-
-
-	std::string modelPath = ASSET_PATH + MODEL_PATH + "armoredrecon.fbx";
-	GameObject * go = loadFBXFromFile(modelPath);
-	for (int i = 0; i < go->getChildCount(); i++)
-	{
-		Material * material = new Material();
-		material->init();
-		std::string vsPath = ASSET_PATH + SHADER_PATH + "/BumpmappingVS.glsl";
-		std::string fsPath = ASSET_PATH + SHADER_PATH + "/BumpmappingFS.glsl";
-		material->loadShader(vsPath, fsPath);
-
-		std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_diff.png";
-		material->loadDiffuseMap(diffTexturePath);
-
-		std::string specTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_spec.png";
-		material->loadSpecularMap(specTexturePath);
-
-		std::string bumpTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_N.png";
-		material->loadBumpMap(bumpTexturePath);
-
-		go->getChild(i)->setMaterial(material);
-	}
-	go->getTransform()->setPosition(2.0f, -2.0f, -6.0f);
-	go->getTransform()->setRotation(0.0f, -40.0f, 0.0f);
-	displayList.push_back(go);
-
-	go = loadFBXFromFile(modelPath);
-	for (int i = 0; i < go->getChildCount(); i++)
-	{
-		Material * material = new Material();
-		material->init();
-		std::string vsPath = ASSET_PATH + SHADER_PATH + "/ParallaxMappingVS.glsl";
-		std::string fsPath = ASSET_PATH + SHADER_PATH + "/ParallaxMappingFS.glsl";
-		material->loadShader(vsPath, fsPath);
-
-		std::string diffTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_diff.png";
-		material->loadDiffuseMap(diffTexturePath);
-
-		std::string specTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_spec.png";
-		material->loadSpecularMap(specTexturePath);
-
-		std::string bumpTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_N.png";
-		material->loadBumpMap(bumpTexturePath);
-
-		std::string heightTexturePath = ASSET_PATH + TEXTURE_PATH + "/armoredrecon_Height.png";
-		material->loadHeightMap(heightTexturePath);
-
-		go->getChild(i)->setMaterial(material);
-	}
-	go->getTransform()->setPosition(-2.0f, -2.0f, -6.0f);
-	go->getTransform()->setRotation(0.0f, -40.0f, 0.0f);
-	displayList.push_back(go);
-
-}
-
-/*
 void render2D()
 {
 	//Turn on Alpha Blending
@@ -659,9 +497,7 @@ void render2D()
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
 }
-*/
 
-/*
 void render3D()
 {
 	glBindVertexArray(gameVAO);
@@ -679,85 +515,6 @@ void render3D()
 
 	//Actually draw the triangle, giving the number of vertices provided
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-}
-*/
-
-void renderGameObject(GameObject * pObject)
-{
-	if (!pObject)
-		return;
-
-	pObject->render();
-
-	Mesh * currentMesh = pObject->getMesh();
-	Transform * currentTransform = pObject->getTransform();
-	Material * currentMaterial = pObject->getMaterial();
-
-	if (currentMesh && currentMaterial && currentTransform)
-	{
-		currentMaterial->bind();
-		currentMesh->bind();
-
-		GLint MVPLocation = currentMaterial->getUniformLocation("MVP");
-		GLint ModelLocation = currentMaterial->getUniformLocation("Model");
-		GLint ambientMatLocation = currentMaterial->getUniformLocation("ambientMaterialColour");
-		GLint ambientLightLocation = currentMaterial->getUniformLocation("ambientLightColour");
-		GLint diffuseMatLocation = currentMaterial->getUniformLocation("diffuseMaterialColour");
-		GLint diffuseLightLocation = currentMaterial->getUniformLocation("diffuseLightColour");
-		GLint lightDirectionLocation = currentMaterial->getUniformLocation("lightDirection");
-		GLint specularMatLocation = currentMaterial->getUniformLocation("specularMaterialColour");
-		GLint specularLightLocation = currentMaterial->getUniformLocation("specularLightColour");
-		GLint specularpowerLocation = currentMaterial->getUniformLocation("specularPower");
-		GLint cameraPositionLocation = currentMaterial->getUniformLocation("cameraPosition");
-		GLint diffuseTextureLocation = currentMaterial->getUniformLocation("diffuseMap");
-		GLint specTextureLocation = currentMaterial->getUniformLocation("specMap");
-		GLint bumpTextureLocation = currentMaterial->getUniformLocation("bumpMap");
-		GLint heightTextureLocation = currentMaterial->getUniformLocation("heightMap");
-
-		Camera * cam = mainCamera->getCamera();
-		Light* light = mainLight->getLight();
-
-
-		mat4 MVP = cam->getProjection()*cam->getView()*currentTransform->getModel();
-		mat4 Model = currentTransform->getModel();
-
-		vec4 ambientMaterialColour = currentMaterial->getAmbientColour();
-		vec4 diffuseMaterialColour = currentMaterial->getDiffuseColour();
-		vec4 specularMaterialColour = currentMaterial->getSpecularColour();
-		float specularPower = currentMaterial->getSpecularPower();
-
-		vec4 diffuseLightColour = light->getDiffuseColour();
-		vec4 specularLightColour = light->getSpecularColour();
-		vec3 lightDirection = light->getDirection();
-
-		vec3 cameraPosition = mainCamera->getTransform()->getPosition();
-
-		glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
-		glUniformMatrix4fv(MVPLocation, 1, GL_FALSE, glm::value_ptr(MVP));
-		glUniform3fv(cameraPositionLocation, 1, glm::value_ptr(cameraPosition));
-
-		glUniform4fv(ambientMatLocation, 1, glm::value_ptr(ambientMaterialColour));
-		glUniform4fv(diffuseMatLocation, 1, glm::value_ptr(diffuseMaterialColour));
-		glUniform4fv(specularMatLocation, 1, glm::value_ptr(specularMaterialColour));
-		glUniform1f(specularpowerLocation, specularPower);
-
-		glUniform4fv(ambientLightLocation, 1, glm::value_ptr(ambientLightColour));
-		glUniform4fv(diffuseLightLocation, 1, glm::value_ptr(diffuseLightColour));
-		glUniform4fv(specularLightLocation, 1, glm::value_ptr(specularLightColour));
-		glUniform3fv(lightDirectionLocation, 1, glm::value_ptr(lightDirection));
-
-		glUniform1i(diffuseTextureLocation, 0);
-		glUniform1i(specTextureLocation, 1);
-		glUniform1i(bumpTextureLocation, 2);
-		glUniform1i(heightTextureLocation, 3);
-
-		glDrawElements(GL_TRIANGLES, currentMesh->getIndexCount(), GL_UNSIGNED_INT, 0);
-	}
-
-	for (int i = 0; i < pObject->getChildCount(); i++)
-	{
-		renderGameObject(pObject->getChild(i));
-	}
 }
 
 //Function to draw/render
@@ -799,74 +556,42 @@ void render()
 	//required to swap the back and front buffer
 	SDL_GL_SwapWindow(window);
 	*/		//Not needed anymore
-	postProcessor.bind();
+
 
 	//old imediate mode!
 	//Set the clear colour(background)
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	glClearDepth(1.0f);
 	//clear the colour and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-
-	//Alterantive Syntax
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-	{
-		renderGameObject((*iter));
-	}
-
-	/*
 	render2D();		//Calls the render 2D function
 	render3D();		//Calls the render 3D function
-	*/
-	//Switching to the normal framebuffer
-	postprocessor.preDraw();
-	//Grab stuff from the shader
-	GLint colourFilterLocation = postProcessor.getUniformVariableLocation("colourFilter");
-	glUniformMatrix3fv(colourFilterLocation, 1, GL_FALSE, glm::value_ptr(SEPIA_FILTER));
-
-	//Draw
-	postProcessor.Draw();
-
-	//Post Draw
-	postProcessor.postDraw();
 
 	SDL_GL_SwapWindow(window);
 
 }
 
-/*
+
 void update2DScene()
 {
 	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 2.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	projMatrixUI = glm::ortho(0.0f, (float)WINDOW_WIDTH, (float)WINDOW_HEIGHT, 0.0f, 0.1f, 100.0f);
 	worldMatrixUI = glm::translate(mat4(1.0f), vec3(10.0f, 10.0f, -10.0f));
 }
-*/
 
-/*
 void update3DScene()
 {
 	projMatrixGame = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
 	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 2.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
 	worldMatrixGame = glm::translate(mat4(1.0f), vec3(0.0f, 0.0f, -10.0f));
 }
-*/
-
 
 //Function to update the game state
 void update()
 {
-	//Alternataive syntax
-	for (auto iter = displayList.begin(); iter != displayList.end(); iter++)
-	{
-		(*iter)->update();
-	}
-
-	/*
 	update2Dscene();
 	update3Dscene();
-	*/
+	
 	/*
 	projMatrix = glm::perspective(45.0f, (float)WINDOW_WIDTH / (float)WINDOW_HEIGHT, 0.1f, 100.0f);
 	viewMatrix = glm::lookAt(vec3(0.0f, 0.0f, 10.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
@@ -874,20 +599,18 @@ void update()
 	*/ //^Not needed anymore
 }
 
-/*
 void createTexture()
 {
 	std::string texturePath = ASSET_PATH + TEXTURE_PATH + " /texture.png";
 	texture = loadTextureFromFile(texturePath);
 }
-*/
-/*
+
 void createFontTexture()
 {
 std:string fontPath = ASSET_PATH + FONT_PATH + " /font.otf";	//This line may be incorrect
 	font = loadFontFromFile(fontPath);
 }
-*/
+
 /*
 void initGeometryFromTexture(GLuint textureID)
 {
@@ -908,7 +631,7 @@ int main(int argc, char* args[])
 	// ----------------------------------------------------------------------------
 	// http://stackoverflow.com/questions/516200/relative-paths-not-working-in-xcode-c
 	// This makes relative paths work in C++ in Xcode by changing directory to the Resources folder inside the .app bundle
-	
+	/*
 #ifdef __APPLE__
 	CFBundleRef mainBundle = CFBundleGetMainBundle();
 	CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL(mainBundle);
@@ -922,7 +645,7 @@ int main(int argc, char* args[])
 	chdir(path);
 	std::cout << "Current Path: " << path << std::endl;
 #endif
-	
+	*/
 	
 	//Init everthing - SDL, if it is nonzero we have a problem
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
@@ -944,7 +667,7 @@ int main(int argc, char* args[])
 	{
 		std::cout << "ERROR TFF_Init: " << TTF_GetError();
 	}
-	/*
+
 	//The code below initialises SDL Image for jpg and pngs
 	int imageInitFlags = IMG_INIT_JPG | IMG_INIT_PNG;
 	int returnInitFlags = IMG_Init(imageInitFlags);
@@ -953,30 +676,26 @@ int main(int argc, char* args[])
 		std::cout << "ERROR SDL_Image Init" << IMG_GetError() << std::endl;
 		//Handles and gets Error
 	}
-	*/
+
 	InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, false);
 	//Call our InitOpenGL Function
 	initOpenGL();
-	CheckForErrors();
 	//Set our viewport
 	setViewport(WINDOW_WIDTH, WINDOW_HEIGHT);
 
-	/*
+	//
 	create2DScene();
 	create3DScene();
-	*/
-	Initialise();
-	/*
 	GLenum error;
 	do{
 		error = glGetError();
 	} 
 	while (error != GL_NO_ERROR);
-	*/
-	/*
+
+
 	//Call out InitGeometry Function
 	initGeometry();
-	*/
+	
 
 	//createShader();
 	//Value to hold the event generated by SDL

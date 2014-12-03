@@ -11,7 +11,6 @@
 		if (nOfColors == 4) // This is 4 to inlucde the alpha channel
 		{
 			if (surface->format->Rmask == 0x000000ff)
-			{
 				textureFormat = GL_RGBA;
 			internalFormat = GL_RGB8;
 		}

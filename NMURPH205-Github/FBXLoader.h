@@ -1,5 +1,5 @@
-#ifndef FBXLOADER_H
-#define FBXLOADER_H
+#ifndef FBXLoader_H
+#define FBXLoader_H
 
 #include <fbxsdk.h>
 
@@ -19,6 +19,4 @@ void processMeshNormals(FbxMesh * mesh, Vertex * verts, int numVerts);
 
 void processMeshTextureCoords(FbxMesh * mesh, Vertex * verts, int numVerts);
 
-//void calculateTagentAndBinormals(Vertex * verts, int numVerts, int * indices, int numIndices);
-//^This will be added later
 #endif
