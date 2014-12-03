@@ -91,6 +91,12 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
+<<<<<<< HEAD
+=======
+  <ItemGroup>
+    <ClInclude Include="assets\shaders\Texture.h" />
+    <ClInclude Include="Camera.h" />
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
     <ClInclude Include="Component.h" />
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="GameObject.h" />
