@@ -95,6 +95,9 @@ GLuint nameTexture = 0;
 <<<<<<< HEAD
 =======
 GLuint fontTexture = 0;
+<<<<<<< HEAD
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
+=======
 >>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 
 
@@ -614,7 +617,10 @@ std:string fontPath = ASSET_PATH + FONT_PATH + " /font.otf";	//This line may be 
 	font = loadFontFromFile(fontPath);
 }
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 
 /*
 void initGeometryFromTexture(GLuint textureID)

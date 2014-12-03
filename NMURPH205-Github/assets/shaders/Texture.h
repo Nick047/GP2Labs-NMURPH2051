@@ -2,8 +2,11 @@
 #define TEXTURE_H
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #include <GL/glew.h>
 
+=======
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 =======
 >>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 /*
