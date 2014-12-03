@@ -93,8 +93,13 @@
   </ItemGroup>
   <ItemGroup>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ClInclude Include="Texture.h" />
     <ClInclude Include="ColourFilters.h" />
+=======
+    <ClInclude Include="assets\shaders\Texture.h" />
+    <ClInclude Include="Camera.h" />
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 =======
     <ClInclude Include="assets\shaders\Texture.h" />
     <ClInclude Include="Camera.h" />

@@ -81,6 +81,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
 <<<<<<< HEAD
+<<<<<<< HEAD
     <ClInclude Include="ColourFilters.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -90,6 +91,8 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 =======
 >>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
     <ClInclude Include="Camera.h">
