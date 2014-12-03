@@ -1,8 +1,11 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+<<<<<<< HEAD
 #include <GL/glew.h>
 
+=======
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 /*
 #ifdef __APPLE__		//Used for mac compatability
 #include <SDL2/SDL.h>

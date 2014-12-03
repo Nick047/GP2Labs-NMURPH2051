@@ -92,6 +92,10 @@ mat4 worldMatrixGame;
 //Texture
 GLuint texture = 0;
 GLuint nameTexture = 0;
+<<<<<<< HEAD
+=======
+GLuint fontTexture = 0;
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 
 
 //SDL Window
@@ -609,6 +613,21 @@ void createFontTexture()
 std:string fontPath = ASSET_PATH + FONT_PATH + " /font.otf";	//This line may be incorrect
 	font = loadFontFromFile(fontPath);
 }
+<<<<<<< HEAD
+=======
+
+/*
+void initGeometryFromTexture(GLuint textureID)
+{
+int width, height;
+
+glBindTexture(GL_TEXTURE_2D, textureID);
+glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_WIDTH, &width);
+glGetTexLevelParameteriv(GL_TEXTURE_2D, 0, GL_TEXTURE_HEIGHT, &height);
+}
+//I'm fairly sure this shouldn't be here sfter refactoring the code and creating separate renderers.
+*/
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
 
 //Main Method - Entry Point
 int main(int argc, char* args[])

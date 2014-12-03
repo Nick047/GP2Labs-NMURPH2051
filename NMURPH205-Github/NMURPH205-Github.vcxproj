@@ -96,6 +96,9 @@
   <ItemGroup>
     <ClInclude Include="assets\shaders\Texture.h" />
     <ClInclude Include="Camera.h" />
+<<<<<<< HEAD
+>>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
+=======
 >>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
     <ClInclude Include="Component.h" />
     <ClInclude Include="FBXLoader.h" />
