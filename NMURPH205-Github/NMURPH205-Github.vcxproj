@@ -91,9 +91,6 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
-  
-    
-    
     <ClInclude Include="Component.h" />
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="GameObject.h" />
