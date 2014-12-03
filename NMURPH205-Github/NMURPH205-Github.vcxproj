@@ -91,22 +91,9 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <<<<<<< HEAD
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="ColourFilters.h" />
-=======
-    <ClInclude Include="assets\shaders\Texture.h" />
-    <ClInclude Include="Camera.h" />
->>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
-=======
-    <ClInclude Include="assets\shaders\Texture.h" />
-    <ClInclude Include="Camera.h" />
->>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
-=======
-    <ClInclude Include="assets\shaders\Texture.h" />
-    <ClInclude Include="Camera.h" />
->>>>>>> parent of 3765452... Bumo-Mapping and PostProcessing
+  
+    
+    
     <ClInclude Include="Component.h" />
     <ClInclude Include="FBXLoader.h" />
     <ClInclude Include="GameObject.h" />
@@ -117,7 +104,7 @@
     <ClInclude Include="Shader.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Vertex.h" />
-  </ItemGroup>
+  
   <ItemGroup>
     <None Include="ambientFS.glsl" />
     <None Include="ambientVS.glsl" />
