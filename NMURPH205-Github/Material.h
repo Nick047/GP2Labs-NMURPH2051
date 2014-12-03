@@ -8,7 +8,7 @@ using glm::vec4;
 
 #include <string>
 
-#ifdef __APPLE__
+#ifdef __APPLE__		//Headers required for mac compatability
 #include <SDL2/SDL_opengl.h>
 #include <OpenGL/glu.h>
 #elif WIN32
@@ -21,8 +21,8 @@ using glm::vec4;
 
 class Material :public Component{
 public:
-	Material();
-	~Material();
+	Material();		//material parameter-less constructor
+	~Material();	//deconstructor
 
 	void destroy();
 
@@ -48,6 +48,13 @@ public:
 
 	void loadSpecularMap(const std::string& filename);
 	GLuint getSpecularMap();
+
+	void loadBumpMap(const std::string& filename);
+	GLuint getBumpMap();
+
+	void loadHeightMap(const std::string& filename);
+	GLuint getHeightMap();
+
 protected:
 private:
 	GLuint m_ShaderProgram;
@@ -57,6 +64,8 @@ private:
 	float m_SpecularPower;
 	GLuint m_DiffuseMap;
 	GLuint m_SpecularMap;
+	GLuint m_BumpMap;
+	GLuint m_HeightMap;
 };
 
 #endif

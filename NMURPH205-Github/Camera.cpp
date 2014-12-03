@@ -23,6 +23,8 @@ Camera::~Camera()
 void Camera::update()
 {
 	//get the position from the transform
+	//The line below might need to look like the folowing
+	//m_Position = m_Parent->getTransform()->getPosition();
 	vec3 position = m_Parent->getTransform()->getPosition();
 
 	m_Projection = glm::perspective(m_FOV, m_AspectRatio, m_NearClip, m_FarClip);

@@ -9,9 +9,10 @@ Material::Material()
 	m_AmbientColour = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	m_DiffuseColour = vec4(0.0f, 0.0f, 0.0f, 1.0f);
 	m_SpecularColour = vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	m_SpecularPower = 10.0f;
+	m_SpecularPower = 10.0f;	//Should this be changed to 2
 	m_DiffuseMap = 0;
 	m_SpecularMap = 0;
+	m_HeightMap = 0;
 }
 
 Material::~Material()
@@ -24,6 +25,8 @@ void Material::destroy()
 	glDeleteProgram(m_ShaderProgram);
 	glDeleteTextures(1, &m_DiffuseMap);
 	glDeleteTextures(1, &m_SpecularMap);
+	glDeleteTextures(1, &m_BumpMap);
+	glDeleteTextures(2, &m_HeightMap);
 }
 
 void Material::bind()
@@ -34,6 +37,12 @@ void Material::bind()
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, m_SpecularMap);
+
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, m_BumpMap);
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, m_HeightMap);
 }
 
 bool Material::loadShader(const std::string& vsFilename, const std::string& fsFilename)
@@ -58,6 +67,8 @@ bool Material::loadShader(const std::string& vsFilename, const std::string& fsFi
 	glBindAttribLocation(m_ShaderProgram, 1, "vertexNormals");
 	glBindAttribLocation(m_ShaderProgram, 2, "vertexTexCoords");
 	glBindAttribLocation(m_ShaderProgram, 3, "vertexColour");
+	glBindAttribLocation(m_ShaderProgram, 4, "vertexTangents");
+	glBindAttribLocation(m_ShaderProgram, 5, "vertexBinormals");
 
 	return true;
 }
@@ -125,4 +136,25 @@ void Material::loadSpecularMap(const std::string& filename)
 GLuint Material::getSpecularMap()
 {
 	return m_SpecularMap;
+}
+
+void Material::loadBumpMap(const std::string& filename)
+{
+	m_BumpMap = loadTextureFromFile(filename);
+}
+
+GLuint Material::getBumpMap()
+{
+	return m_BumpMap;
+}
+
+void Material::loadHeightMap(const std::string& filename)
+{
+	m_HeightMap = loadTextureFromFile(filename);
+}
+
+
+GLuint Material::getHeightMap()
+{
+	return m_HeightMap;
 }

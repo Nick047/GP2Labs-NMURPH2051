@@ -1,4 +1,5 @@
 #include "Component.h"
+#include "GameObject.h"	//Added lab 6 - 8.1
 
 Component::Component()		//This is the constructor
 {

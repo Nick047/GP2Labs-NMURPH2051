@@ -1,19 +1,19 @@
-#ifndef Shader_h
-#define Shader_h
+#ifndef SHADER_H
+#define SHADER_H
 
 #include <GL/glew.h>
 
 
-/*	//Used for mac compatability
+//Used for mac compatability
 #ifdef __APPLE__
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #elif WIN32
-*/
+
 #include <SDL_opengl.h>
-/*
+
 #endif
-*/
+
 
 #include <iostream>
 #include <string>
